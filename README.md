@@ -20,27 +20,4 @@ npm run build
 docker compose up -d
 ```
 
-or force building the image everytime:
 
-```
-docker compose up --build -d
-```
-
-4. Every changes in the frontend will also be updated in the container, due to the volume mapping in [`docker-compose.yml`](./docker-compose.yml) file:
-
-```yaml
-frontend:
-  build: ./frontend
-  hostname: frontend
-  restart: on-failure
-  depends_on:
-    - backend
-  ports:
-    - 8080:80
-  environment:
-    VITE_API_URL: http://backend
-  networks:
-    - fullstack-app-network
-  volumes:
-    - ./frontend/build/:/usr/share/nginx/html/
-```
