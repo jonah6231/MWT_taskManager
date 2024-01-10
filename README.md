@@ -10,6 +10,7 @@ git clone https://github.com/dung204/todo-app-with-docker.git
 
 ```
 cd frontend
+npm i
 npm run build
 ```
 
