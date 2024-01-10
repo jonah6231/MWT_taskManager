@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    hostname: frontend
+    restart: on-failure
+    depends_on:
+      - backend
+    ports:
+      - 8080:80
+    environment:
+      VITE_API_URL: http://backend
+    networks:
+      - fullstack-app-network
+    volumes:
+      - ./frontend/build/:/usr/share/nginx/html/
+
+  backend:
+    build: ./backend
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    environment:
+      SERVER_PORT: 5000
+      CORS_FRONTEND_URL: http://localhost:8080
+      DB_URL: mongodb://db
+      DB_USERNAME: mongodocker
+      DB_PASSWORD: anhdung
+      DB_NAME: production
+    networks:
+      - fullstack-app-network
+
+  db:
+    image: mongo:6.0.8-jammy
+    restart: on-failure
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodocker
+      MONGO_INITDB_ROOT_PASSWORD: anhdung
+      MONGO_INITDB_DATABASE: production
+    networks:
+      - fullstack-app-network
+    volumes:
+      - db-data:/data/db
+
+networks:
+  fullstack-app-network:
+
+volumes:
+  db-data:
+    name: db-data

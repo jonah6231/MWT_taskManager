@@ -1,0 +1,7 @@
+.editIcon {
+  transition: all 0.2s ease;
+}
+
+.editIcon:hover {
+  color: rgb(217, 217, 0);
+}
